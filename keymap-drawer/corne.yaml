@@ -18,7 +18,7 @@ layers:
   - {t: T, h: LCTRL}
   - I
   - E
-  - {t: O, h: '3'}
+  - {t: O, h: Num}
   - B
   - N
   - R
@@ -39,7 +39,7 @@ layers:
   - '-'
   - LGUI
   - Raise
-  - SPACE
+  - {t: SPACE, h: Mouse}
   - RET
   - BACKSPACE
   - Lower
@@ -129,7 +129,7 @@ layers:
   - RET
   - {t: ▽, type: trans}
   - ''
-  '3':
+  Num:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
@@ -172,3 +172,46 @@ layers:
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
   - {t: ▽, type: trans}
+  Mouse:
+  - {t: ▽, type: trans}
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - {t: ←, s: Scroll}
+  - {t: ↓, s: Scroll}
+  - {t: ↑, s: Scroll}
+  - {t: →, s: Scroll}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - LSHIFT
+  - LCTRL
+  - {t: Right, s: Click}
+  - {t: Left, s: Click}
+  - {t: Middle, s: Click}
+  - ''
+  - {t: ←, s: Move}
+  - {t: ↓, s: Move}
+  - {t: ↑, s: Move}
+  - {t: →, s: Move}
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - ''
+  - Back
+  - Forward
+  - ''
+  - ''
+  - {t: ▽, type: trans}
+  - {t: ▽, type: trans}
+  - ''
+  - {type: held}
+  - {t: Left, s: Click}
+  - {t: Right, s: Click}
+  - ''
