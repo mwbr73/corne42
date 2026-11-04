@@ -144,6 +144,7 @@
             // Math operators use the same German-layout HID trick as raise_layer:
             // + = RIGHT_BRACKET, - = SLASH, * = LS(RIGHT_BRACKET), / = LS(N7), = = LS(N0).
 
+            display-name = "Num";
             bindings = <
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &kp NUMBER_7  &kp N8        &kp N9        &kp RIGHT_BRACKET      &kp SLASH
 &trans  &trans  &trans  &trans  &trans  &trans    &kp N0  &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp LS(RIGHT_BRACKET)  &kp LS(N7)
