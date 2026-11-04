@@ -1,0 +1,17 @@
+# keymap-drawer settings, used by .github/workflows/draw-keymaps.yml.
+# Readable labels for the mouse layer (keymap-drawer prints them raw otherwise).
+parse_config:
+  raw_binding_map:
+    "&mmv MOVE_LEFT": {t: "←", s: "Move"}
+    "&mmv MOVE_DOWN": {t: "↓", s: "Move"}
+    "&mmv MOVE_UP": {t: "↑", s: "Move"}
+    "&mmv MOVE_RIGHT": {t: "→", s: "Move"}
+    "&msc SCRL_LEFT": {t: "←", s: "Scroll"}
+    "&msc SCRL_DOWN": {t: "↓", s: "Scroll"}
+    "&msc SCRL_UP": {t: "↑", s: "Scroll"}
+    "&msc SCRL_RIGHT": {t: "→", s: "Scroll"}
+    "&mkp LCLK": {t: "Left", s: "Click"}
+    "&mkp RCLK": {t: "Right", s: "Click"}
+    "&mkp MCLK": {t: "Middle", s: "Click"}
+    "&mkp MB4": "Back"
+    "&mkp MB5": "Forward"
