@@ -7,6 +7,7 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/pointing.h>
 
 / {
     behaviors {
@@ -48,6 +49,19 @@
             hold-trigger-on-release;
         };
 
+        // Space: tap = space, hold = mouse layer. Tap-preferred, so it only becomes
+        // the layer when held past the tapping term; tap then hold repeats space.
+        lt_spc: lt_spc {
+            compatible = "zmk,behavior-hold-tap";
+            label = "LT_SPC";
+            bindings = <&mo>, <&kp>;
+
+            #binding-cells = <2>;
+            tapping-term-ms = <200>;
+            quick-tap-ms = <175>;
+            flavor = "tap-preferred";
+        };
+
         // ^ and ` are dead keys on the German host layout (they combine with the
         // next keystroke instead of typing on their own), so producing the bare
         // character means tapping the dead key then Space.
@@ -85,7 +99,7 @@
 &kp ESCAPE  &kp J            &kp D           &kp U             &kp A           &kp X               &kp P    &kp H          &kp L      &kp M           &kp W                &kp DELETE
 &kp TAB     &HMR_L LSHIFT C  &HMR_L LCTRL T  &kp I             &kp E           &hmr_l_layer 3 O    &kp B    &kp N          &kp R      &HMR_R LCTRL S  &HMR_R LEFT_SHIFT G  &kp Q
 &kp LALT    &kp F            &kp V           &kp LEFT_BRACKET  &kp APOSTROPHE  &kp SEMICOLON       &kp Z    &kp Y          &kp COMMA  &kp DOT         &kp K                &kp MINUS
-                                             &kp LGUI          &mo 2           &kp SPACE           &kp RET  &kp BACKSPACE  &mo 1
+                                             &kp LGUI          &mo 2           &lt_spc 4 SPACE     &kp RET  &kp BACKSPACE  &mo 1
             >;
         };
 
@@ -135,6 +149,25 @@
 &trans  &trans  &trans  &trans  &trans  &trans    &kp N0  &kp NUMBER_4  &kp NUMBER_5  &kp NUMBER_6  &kp LS(RIGHT_BRACKET)  &kp LS(N7)
 &trans  &trans  &trans  &trans  &trans  &trans    &trans  &kp NUMBER_1  &kp NUMBER_2  &kp NUMBER_3  &kp LS(N0)             &trans
                         &trans  &trans  &trans    &trans  &trans        &trans
+            >;
+        };
+
+        mouse_layer {
+            // Hold Space. Pointer on the arrow-key positions of Lower, scroll in the
+            // same columns one row up; clicks on the left home row or the right thumbs.
+            // ZMK accelerates on its own, so there are no speed keys.
+            // -----------------------------------------------------------------------------------------
+            // |      |     |     |     |     |     |   |     | ◀SCR| ▼SCR| ▲SCR| SCR▶|      |
+            // |      | SHFT| CTRL| RCLK| LCLK| MCLK|   |     |  ◀  |  ▼  |  ▲  |  ▶  |      |
+            // |      |     |     |     |     |     |   |     | BACK| FWD |     |     |      |
+            //                    | GUI |     | ███ |   | LCLK| RCLK|     |
+
+            display-name = "Mouse";
+            bindings = <
+&trans  &none        &none        &none      &none      &none        &none  &msc SCRL_LEFT  &msc SCRL_DOWN  &msc SCRL_UP  &msc SCRL_RIGHT  &trans
+&trans  &kp LSHIFT   &kp LCTRL    &mkp RCLK  &mkp LCLK  &mkp MCLK    &none  &mmv MOVE_LEFT  &mmv MOVE_DOWN  &mmv MOVE_UP  &mmv MOVE_RIGHT  &trans
+&trans  &none        &none        &none      &none      &none        &none  &mkp MB4        &mkp MB5        &none         &none            &trans
+                                  &trans     &none      &trans       &mkp LCLK  &mkp RCLK   &none
             >;
         };
     };

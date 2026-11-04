@@ -9,7 +9,7 @@
 #include "dynamic_keymap.h"
 
 // _GAME sits right above _BASE so Lower/Raise/Num still work on top of it.
-enum layers { _BASE, _GAME, _LOWER, _RAISE, _NUM };
+enum layers { _BASE, _GAME, _LOWER, _RAISE, _NUM, _MOUSE };
 
 // ^ and ` are dead keys on the German host layout, so producing the bare
 // character means tapping the dead key then Space. Exposed to Vial as
@@ -26,6 +26,9 @@ enum custom_keycodes {
 #define HM_S    LCTL_T(KC_S)
 #define HM_G    LSFT_T(KC_G)
 
+// Space: tap = space, hold = mouse layer (ZMK lt_spc)
+#define SPC_MS  LT(_MOUSE, KC_SPC)
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_BASE] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
@@ -35,7 +38,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LALT,    KC_F,    KC_V, KC_LBRC, KC_QUOT, KC_SCLN,                         KC_Z,    KC_Y, KC_COMM,  KC_DOT,    KC_K, KC_MINS,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI, MO(_RAISE), KC_SPC,   KC_ENT, KC_BSPC, MO(_LOWER)
+                                          KC_LGUI, MO(_RAISE), SPC_MS,   KC_ENT, KC_BSPC, MO(_LOWER)
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -91,6 +94,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, _______, _______, _______, _______, _______,                      _______,    KC_1,    KC_2,    KC_3, S(KC_0), _______,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, _______, _______,    _______, _______, _______
+                                      //`--------------------------'  `--------------------------'
+  ),
+
+  // Mouse (hold Space): pointer on Lower's arrow positions, scroll one row up,
+  // clicks on the left home row or the right thumbs. ACL0/1/2 = slow/normal/fast
+  // while held.
+  [_MOUSE] = LAYOUT_split_3x6_3(
+  //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+      _______, XXXXXXX, MS_ACL0, MS_ACL1, MS_ACL2, XXXXXXX,                      XXXXXXX, MS_WHLL, MS_WHLD, MS_WHLU, MS_WHLR, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, KC_LSFT, KC_LCTL, MS_BTN2, MS_BTN1, MS_BTN3,                      XXXXXXX, MS_LEFT, MS_DOWN,   MS_UP, MS_RGHT, _______,
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+      _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, MS_BTN4, MS_BTN5, XXXXXXX, XXXXXXX, _______,
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                          _______, XXXXXXX, _______,    MS_BTN1, MS_BTN2, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   )
 };
@@ -259,11 +277,11 @@ static void render_scene(uint8_t wpm) {
 }
 
 static void render_status(uint8_t wpm) {
-    static const char names[][6] PROGMEM = {"BASE ", "GAME ", "LOWER", "RAISE", " NUM "};
+    static const char names[][6] PROGMEM = {"BASE ", "GAME ", "LOWER", "RAISE", " NUM ", "MOUSE"};
     bool caps = host_keyboard_led_state().caps_lock;
 
     oled_set_cursor(0, 12);
-    oled_write_P(names[MIN(get_highest_layer(layer_state), _NUM)], caps);
+    oled_write_P(names[MIN(get_highest_layer(layer_state), _MOUSE)], caps);
     oled_set_cursor(0, 14);
     oled_write_P(PSTR(" WPM "), false);
     oled_set_cursor(0, 15);
